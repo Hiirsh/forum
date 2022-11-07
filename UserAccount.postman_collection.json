@@ -1,0 +1,482 @@
+{
+	"info": {
+		"_postman_id": "38ade8c9-39e3-4ae2-a27c-f76e8f9da708",
+		"name": "UserAccount",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\": \"JavaFan\",\n    \"password\": \"1234\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Smith\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "User register",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"login\": \"JavaFan\",\n    \"password\": \"1234\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Smith\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"login\": \"JavaFan\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Smith\",\n    \"roles\": [\n        \"USER\"\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "4321",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "JavaFan",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "User login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"login\": \"JavaFan\",\n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"login\": \"JavaFan\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Smith\",\n    \"roles\": [\n        \"USER\"\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete user",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "4321",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "JavaFan",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/{{user}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"{{user}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "User delete",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user/{{user}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"{{user}}"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"login\": \"JavaFan\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Smith\",\n    \"roles\": [\n        \"USER\"\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Update user",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "4321",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "JavaFan",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Smith\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/{{user}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"{{user}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "User update",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Smith\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/{{user}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"{{user}}"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"login\": \"JavaFan\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Smith\",\n    \"roles\": [\n        \"USER\"\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Add role",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "4321",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/{{user}}/role/{{role}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"{{user}}",
+						"role",
+						"{{role}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add role",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user/{{user}}/role/{{role}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"{{user}}",
+								"role",
+								"{{role}}"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"login\": \"JavaFan\",\n    \"roles\": [\n        \"USER\",\n        \"MODERATOR\"\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete role",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "4321",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/{{user}}/role/{{role}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"{{user}}",
+						"role",
+						"{{role}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete role",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user/{{user}}/role/{{role}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"{{user}}",
+								"role",
+								"{{role}}"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"login\": \"JavaFan\",\n    \"roles\": [\n        \"USER\"\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Change password",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "JavaFan",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-Password",
+						"value": "1234",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/password",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"password"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Change password",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"login\": \"JavaFan\",\n    \"password\": \"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/password",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"password"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/account"
+		},
+		{
+			"key": "user",
+			"value": "JavaFan"
+		},
+		{
+			"key": "role",
+			"value": "Moderator"
+		}
+	]
+}
