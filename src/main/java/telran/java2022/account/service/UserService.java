@@ -1,10 +1,10 @@
-package telran.java2022.user.service;
+package telran.java2022.account.service;
 
-import telran.java2022.user.dto.UserAddRolesDto;
-import telran.java2022.user.dto.UserDto;
-import telran.java2022.user.dto.UserLoginPasswordDto;
-import telran.java2022.user.dto.UserRegisterDto;
-import telran.java2022.user.dto.UserUpdateDto;
+import telran.java2022.account.dto.UserAddRolesDto;
+import telran.java2022.account.dto.UserDto;
+import telran.java2022.account.dto.UserLoginPasswordDto;
+import telran.java2022.account.dto.UserRegisterDto;
+import telran.java2022.account.dto.UserUpdateDto;
 
 public interface UserService {
   UserDto registerUser(UserRegisterDto registerDto);

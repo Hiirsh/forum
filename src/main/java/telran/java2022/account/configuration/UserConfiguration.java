@@ -1,4 +1,4 @@
-package telran.java2022.user.configuration;
+package telran.java2022.account.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration.AccessLevel;

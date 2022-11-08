@@ -1,4 +1,4 @@
-package telran.java2022.user.utils;
+package telran.java2022.account.utils;
 
 public enum Role {
   USER,

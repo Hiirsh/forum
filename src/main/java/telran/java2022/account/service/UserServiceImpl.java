@@ -1,19 +1,19 @@
-package telran.java2022.user.service;
+package telran.java2022.account.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
-import telran.java2022.user.dao.UserRepository;
-import telran.java2022.user.dto.UserAddRolesDto;
-import telran.java2022.user.dto.UserDto;
-import telran.java2022.user.dto.UserLoginPasswordDto;
-import telran.java2022.user.dto.UserRegisterDto;
-import telran.java2022.user.dto.UserUpdateDto;
-import telran.java2022.user.dto.extentions.UnauthorisedExeption;
-import telran.java2022.user.dto.extentions.UserAlreadyExests;
-import telran.java2022.user.dto.extentions.UserNotFoundExeprion;
-import telran.java2022.user.model.User;
+import telran.java2022.account.dao.UserRepository;
+import telran.java2022.account.dto.UserAddRolesDto;
+import telran.java2022.account.dto.UserDto;
+import telran.java2022.account.dto.UserLoginPasswordDto;
+import telran.java2022.account.dto.UserRegisterDto;
+import telran.java2022.account.dto.UserUpdateDto;
+import telran.java2022.account.dto.extentions.UnauthorisedExeption;
+import telran.java2022.account.dto.extentions.UserAlreadyExests;
+import telran.java2022.account.dto.extentions.UserNotFoundExeprion;
+import telran.java2022.account.model.User;
 
 @Component
 @AllArgsConstructor

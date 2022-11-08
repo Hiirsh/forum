@@ -1,4 +1,4 @@
-package telran.java2022.user;
+package telran.java2022.account;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

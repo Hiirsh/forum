@@ -1,4 +1,4 @@
-package telran.java2022.user.controller;
+package telran.java2022.account.controller;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import telran.java2022.user.dto.UserAddRolesDto;
-import telran.java2022.user.dto.UserDto;
-import telran.java2022.user.dto.UserLoginPasswordDto;
-import telran.java2022.user.dto.UserRegisterDto;
-import telran.java2022.user.dto.UserUpdateDto;
-import telran.java2022.user.service.UserService;
+import telran.java2022.account.dto.UserAddRolesDto;
+import telran.java2022.account.dto.UserDto;
+import telran.java2022.account.dto.UserLoginPasswordDto;
+import telran.java2022.account.dto.UserRegisterDto;
+import telran.java2022.account.dto.UserUpdateDto;
+import telran.java2022.account.service.UserService;
 
 @RestController
 @RequestMapping("/account")

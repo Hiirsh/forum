@@ -1,4 +1,4 @@
-package telran.java2022.user.model;
+package telran.java2022.account.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import telran.java2022.user.utils.Role;
+import telran.java2022.account.utils.Role;
 
 @Getter
 @NoArgsConstructor

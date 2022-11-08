@@ -1,4 +1,4 @@
-package telran.java2022.user.dto.extentions;
+package telran.java2022.account.dto.extentions;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;

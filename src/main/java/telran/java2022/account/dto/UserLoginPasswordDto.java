@@ -1,4 +1,4 @@
-package telran.java2022.user.dto;
+package telran.java2022.account.dto;
 
 import lombok.Getter;
 
