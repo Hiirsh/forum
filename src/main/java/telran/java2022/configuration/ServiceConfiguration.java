@@ -1,4 +1,4 @@
-package telran.java2022.forum.configuration;
+package telran.java2022.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration.AccessLevel;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-public class ForumConfiguration {
+public class ServiceConfiguration {
 
   @Bean
   public ModelMapper getModelMapper() {

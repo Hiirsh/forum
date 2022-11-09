@@ -10,7 +10,7 @@ import telran.java2022.account.dto.UserDto;
 import telran.java2022.account.dto.UserLoginPasswordDto;
 import telran.java2022.account.dto.UserRegisterDto;
 import telran.java2022.account.dto.UserUpdateDto;
-import telran.java2022.account.dto.extentions.UnauthorisedExeption;
+import telran.java2022.account.dto.extentions.UnauthorizedException;
 import telran.java2022.account.dto.extentions.UserAlreadyExests;
 import telran.java2022.account.dto.extentions.UserNotFoundExeprion;
 import telran.java2022.account.model.User;
@@ -26,20 +26,19 @@ public class UserServiceImpl implements UserService {
   public UserDto registerUser(UserRegisterDto registerDto) {
     User user = repository.findById(registerDto.getLogin()).orElse(null);
     if (user != null) {
-      throw new UserAlreadyExests();
+      throw new UserAlreadyExests(registerDto.getLogin());
     }
     user = (modelMapper.map(registerDto, User.class));
-    user.addRole("user");
     repository.save(user);
     return modelMapper.map(user, UserDto.class);
   }
 
   @Override
-  public UserDto loginUser(UserLoginPasswordDto loginDto) {
-    User user = repository.findById(loginDto.getLogin())
-        .orElseThrow(() -> new UserNotFoundExeprion(loginDto.getLogin()));
-    if (!user.getPassword().equals(loginDto.getPassword())) {
-      throw new UnauthorisedExeption();
+  public UserDto loginUser(String[] credentials) {
+    User user = repository.findById(credentials[0])
+        .orElseThrow(() -> new UserNotFoundExeprion(credentials[0]));
+    if (!user.getPassword().equals(credentials[1])) {
+      throw new UnauthorizedException();
     }
     return modelMapper.map(user, UserDto.class);
   }

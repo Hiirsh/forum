@@ -6,6 +6,4 @@ import telran.java2022.account.model.User;
 
 
 public interface UserRepository extends CrudRepository<User, String> {
-  void deleteById(String login);
-
 }

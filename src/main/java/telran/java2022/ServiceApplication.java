@@ -1,13 +1,13 @@
-package telran.java2022.forum;
+package telran.java2022;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ForumApplication {
+public class ServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ForumApplication.class, args);
+		SpringApplication.run(ServiceApplication.class, args);
 	}
 
 }

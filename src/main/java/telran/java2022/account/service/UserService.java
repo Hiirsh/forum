@@ -9,7 +9,7 @@ import telran.java2022.account.dto.UserUpdateDto;
 public interface UserService {
   UserDto registerUser(UserRegisterDto registerDto);
 
-  UserDto loginUser(UserLoginPasswordDto loginDto);
+  UserDto loginUser(String[] credentials);
 
   UserDto removeUser(String login);
 
