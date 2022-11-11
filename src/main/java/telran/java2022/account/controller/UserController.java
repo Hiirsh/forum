@@ -1,5 +1,6 @@
 package telran.java2022.account.controller;
 
+import java.security.Principal;
 import java.util.Base64;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import telran.java2022.account.dto.UserAddRolesDto;
 import telran.java2022.account.dto.UserDto;
-import telran.java2022.account.dto.UserLoginPasswordDto;
 import telran.java2022.account.dto.UserRegisterDto;
 import telran.java2022.account.dto.UserUpdateDto;
 import telran.java2022.account.service.UserService;
@@ -39,8 +39,8 @@ public class UserController {
   }
 
   @DeleteMapping("/user/{login}")
-  public UserDto removeUser(@PathVariable String login) {
-    return userService.removeUser(login);
+  public UserDto removeUser(Principal principal) {
+    return userService.removeUser(principal.getName());
   }
 
   @PutMapping("/user/{login}")
@@ -59,8 +59,8 @@ public class UserController {
   }
 
   @PutMapping("/password")
-  public void changePassword(@RequestBody UserLoginPasswordDto loginPassword) {
-    userService.changePassword(loginPassword);
+  public void changePassword(Principal principal, @RequestHeader("X-Password") String newPAssword) {
+    userService.changePassword(principal.getName(), newPAssword);
   }
 
 }

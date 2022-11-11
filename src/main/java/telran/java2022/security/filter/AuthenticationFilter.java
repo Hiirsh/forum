@@ -1,8 +1,11 @@
 package telran.java2022.security.filter;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Base64;
 
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.Filter;
@@ -11,14 +14,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import telran.java2022.account.dao.UserRepository;
-import telran.java2022.account.dto.extentions.UserNotFoundExeprion;
 import telran.java2022.account.model.User;
 
 @Component
 @AllArgsConstructor
+@Order(10)
 public class AuthenticationFilter implements Filter {
   final UserRepository repository;
 
@@ -30,18 +34,23 @@ public class AuthenticationFilter implements Filter {
     if (checkEndPoint(request.getMethod(), request.getServletPath())) {
       String token = request.getHeader("Authorization");
       if (token == null) {
-        response.sendError(401);
+        response.sendError(401, "Login or password invalid.");
         return;
       }
-      String[] credentials = getCredentialsFromToken(token);
-      User user = repository.findById(credentials[0])
-          .orElseThrow(() -> new UserNotFoundExeprion(credentials[0]));
-      if (!user.getPassword().equals(credentials[1])) {
-        // throw new UnauthorizedException();
-        response.sendError(404, "User not found");
+      String[] credentials;
+      try {
+        credentials = getCredentialsFromToken(token);
+      } catch (Exception e) {
+        response.sendError(401, "Invalid token.");
         return;
       }
-      next.doFilter(request, response);
+      User user = repository.findById(credentials[0]).orElse(null);
+
+      if (user == null || !BCrypt.checkpw(credentials[1], user.getPassword())) {
+        response.sendError(401, "Login or password are invalid");
+        return;
+      }
+      request = new WrappedRequest(request, user.getLogin());
     }
     next.doFilter(request, response);
   }
@@ -53,9 +62,22 @@ public class AuthenticationFilter implements Filter {
   }
 
   private boolean checkEndPoint(String method, String servletPath) {
-    return !(("POST".equalsIgnoreCase(method) && servletPath.equals("/account/register")) ||
-        "GET".equalsIgnoreCase(method) ||
-        ("POST".equalsIgnoreCase(method) && servletPath.startsWith("/forum/posts")));
+    return !(("POST".equalsIgnoreCase(method) && servletPath.matches("/account/register/?")) ||
+        ("POST".equalsIgnoreCase(method) && servletPath.matches("/forum/posts/(tags|period)/?")));
   }
 
+  private class WrappedRequest extends HttpServletRequestWrapper {
+    String login;
+
+    public WrappedRequest(HttpServletRequest request, String login) {
+      super(request);
+      this.login = login;
+    }
+
+    @Override
+    public Principal getUserPrincipal() {
+      return () -> login;
+    }
+
+  }
 }

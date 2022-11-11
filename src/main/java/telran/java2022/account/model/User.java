@@ -34,6 +34,7 @@ public class User {
 
   @Builder
   public User(String login, String password, String firstName, String lastName) {
+    this();
     this.login = login;
     this.password = password; // for encription this.password = encrypt(password)
     this.firstName = firstName;
@@ -44,6 +45,7 @@ public class User {
     Role newRole = Role.valueOf(role.toUpperCase());
     return this.roles.add(newRole);
   }
+
 
   public boolean deleteRole(String role) {
     return this.roles.remove(Role.valueOf(role.toUpperCase()));

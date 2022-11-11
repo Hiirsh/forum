@@ -1,5 +1,6 @@
 package telran.java2022.account.service;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -7,7 +8,6 @@ import lombok.AllArgsConstructor;
 import telran.java2022.account.dao.UserRepository;
 import telran.java2022.account.dto.UserAddRolesDto;
 import telran.java2022.account.dto.UserDto;
-import telran.java2022.account.dto.UserLoginPasswordDto;
 import telran.java2022.account.dto.UserRegisterDto;
 import telran.java2022.account.dto.UserUpdateDto;
 import telran.java2022.account.dto.extentions.UnauthorizedException;
@@ -24,11 +24,12 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserDto registerUser(UserRegisterDto registerDto) {
-    User user = repository.findById(registerDto.getLogin()).orElse(null);
-    if (user != null) {
+    if (repository.existsById(registerDto.getLogin())) {
       throw new UserAlreadyExests(registerDto.getLogin());
     }
-    user = (modelMapper.map(registerDto, User.class));
+    User user = modelMapper.map(registerDto, User.class);
+    String password = BCrypt.hashpw(registerDto.getPassword(), BCrypt.gensalt());
+    user.setPassword(password);
     repository.save(user);
     return modelMapper.map(user, UserDto.class);
   }
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
   public UserDto loginUser(String[] credentials) {
     User user = repository.findById(credentials[0])
         .orElseThrow(() -> new UserNotFoundExeprion(credentials[0]));
-    if (!user.getPassword().equals(credentials[1])) {
+    if (!BCrypt.checkpw(credentials[1], user.getPassword())) {
       throw new UnauthorizedException();
     }
     return modelMapper.map(user, UserDto.class);
@@ -76,9 +77,11 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void changePassword(UserLoginPasswordDto loginDto) {
-    User user = repository.findById(loginDto.getLogin()).orElseThrow(() -> new UserNotFoundExeprion());
-    user.setPassword(loginDto.getPassword());
+  public void changePassword(String login, String newPassword) {
+    User user = repository.findById(login).orElseThrow(() -> new UserNotFoundExeprion());
+    String password = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+    user.setPassword(password);
+    repository.save(user);
   }
 
 }
