@@ -13,18 +13,18 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import telran.java2022.account.dao.UserRepository;
-import telran.java2022.account.model.User;
 import telran.java2022.account.utils.Role;
 import telran.java2022.forum.dao.ForumRepository;
 import telran.java2022.forum.model.Post;
+import telran.java2022.security.context.SecurityContext;
+import telran.java2022.security.context.UserContext;
 
 @Order(30)
 @RequiredArgsConstructor
 @Component
 public class OwnerOrModeratorFilter implements Filter {
-  final UserRepository userRepository;
   final ForumRepository forumRepository;
+  final SecurityContext context;
 
   @Override
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain nexFilterChain)
@@ -33,9 +33,11 @@ public class OwnerOrModeratorFilter implements Filter {
     HttpServletResponse response = (HttpServletResponse) res;
     if (checkEndPoint(request.getMethod(), request.getServletPath())) {
       String userId = request.getUserPrincipal().getName();
-      User user = userRepository.findById(userId).get();
+      UserContext user = context.getUser(userId);
       if (!("DELETE".equalsIgnoreCase(request.getMethod()) && user.getRoles().contains(Role.MODERATOR))) {
-        String postId = request.getServletPath().split("/")[3];
+        String[] arr = request.getServletPath().split("/");
+        // String postId = request.getServletPath().split("/")[3];
+        String postId = arr[arr.length - 1];
         Post post = forumRepository.findById(postId).orElse(null);
         if (post == null) {
           response.sendError(404);

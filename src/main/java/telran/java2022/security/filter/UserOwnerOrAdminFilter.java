@@ -13,17 +13,17 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import telran.java2022.account.dao.UserRepository;
-import telran.java2022.account.model.User;
 import telran.java2022.account.utils.Role;
 import telran.java2022.forum.dao.ForumRepository;
+import telran.java2022.security.context.SecurityContext;
+import telran.java2022.security.context.UserContext;
 
 @Component
 @AllArgsConstructor
 @Order(50)
-public class UserOwnerOrAdminOwnerFilter implements Filter {
-  final UserRepository userRepository;
+public class UserOwnerOrAdminFilter implements Filter {
   final ForumRepository forumRepository;
+  final SecurityContext context;
 
   @Override
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain nexFilterChain)
@@ -31,9 +31,11 @@ public class UserOwnerOrAdminOwnerFilter implements Filter {
     HttpServletRequest request = (HttpServletRequest) req;
     HttpServletResponse response = (HttpServletResponse) res;
     if (checkEndPoint(request.getMethod(), request.getServletPath())) {
-      User user = userRepository.findById(request.getUserPrincipal().getName()).get();
+      UserContext user = context.getUser(request.getUserPrincipal().getName());
+
       if (!("DELETE".equalsIgnoreCase(request.getMethod()) && user.getRoles().contains(Role.ADMIN))) {
         String login = request.getServletPath().split("/")[3];
+        
         if (!(login.equals(request.getUserPrincipal().getName()))) {
           response.sendError(403);
           return;

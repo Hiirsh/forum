@@ -13,15 +13,15 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import telran.java2022.account.dao.UserRepository;
-import telran.java2022.account.model.User;
 import telran.java2022.account.utils.Role;
+import telran.java2022.security.context.SecurityContext;
+import telran.java2022.security.context.UserContext;
 
 @Order(20)
 @RequiredArgsConstructor
 @Component
 public class AdminFilter implements Filter {
-  final UserRepository repository;
+  final SecurityContext context;
 
   @Override
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain nexFilterChain)
@@ -29,7 +29,7 @@ public class AdminFilter implements Filter {
     HttpServletRequest request = (HttpServletRequest) req;
     HttpServletResponse response = (HttpServletResponse) res;
     if (checkEndPoint(request.getMethod(), request.getServletPath())) {
-      User user = repository.findById(request.getUserPrincipal().getName()).get();
+      UserContext user = context.getUser(request.getUserPrincipal().getName());
       if (!user.getRoles().contains(Role.ADMIN)) {
         response.sendError(403);
         return;

@@ -13,15 +13,11 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import telran.java2022.account.dao.UserRepository;
-import telran.java2022.forum.dao.ForumRepository;
 
 @Order(40)
 @RequiredArgsConstructor
 @Component
 public class AuthorFilter implements Filter {
-  final UserRepository userRepository;
-  final ForumRepository forumRepository;
 
   @Override
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain nexFilterChain)
@@ -32,7 +28,8 @@ public class AuthorFilter implements Filter {
     String method = request.getMethod();
     if (checkEndPoint(method, path)) {
       String user = request.getUserPrincipal().getName();
-      String author = path.split("/")["POST".equalsIgnoreCase(method) ? 3 : 5];
+      String[] arr = path.split("/");
+      String author = arr[arr.length - 1];
       if (!user.equals(author)) {
         response.sendError(403, "Wrong user");
         return;

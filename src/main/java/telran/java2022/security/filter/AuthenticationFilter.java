@@ -19,12 +19,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import telran.java2022.account.dao.UserRepository;
 import telran.java2022.account.model.User;
+import telran.java2022.security.context.SecurityContext;
+import telran.java2022.security.context.UserContext;
 
 @Component
 @AllArgsConstructor
 @Order(10)
 public class AuthenticationFilter implements Filter {
   final UserRepository repository;
+  final SecurityContext context;
 
   @Override
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain next)
@@ -51,6 +54,12 @@ public class AuthenticationFilter implements Filter {
         return;
       }
       request = new WrappedRequest(request, user.getLogin());
+      UserContext userContext = UserContext.builder()
+          .userName(user.getLogin())
+          .password(user.getPassword())
+          .roles(user.getRoles())
+          .build();
+        context.addUser(userContext);
     }
     next.doFilter(request, response);
   }
