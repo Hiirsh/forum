@@ -21,6 +21,7 @@ import telran.java2022.account.dao.UserRepository;
 import telran.java2022.account.model.User;
 import telran.java2022.security.context.SecurityContext;
 import telran.java2022.security.context.UserContext;
+import telran.java2022.security.service.SessionService;
 
 @Component
 @AllArgsConstructor
@@ -28,6 +29,7 @@ import telran.java2022.security.context.UserContext;
 public class AuthenticationFilter implements Filter {
   final UserRepository repository;
   final SecurityContext context;
+  final SessionService sessionService;
 
   @Override
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain next)
@@ -35,23 +37,28 @@ public class AuthenticationFilter implements Filter {
     HttpServletRequest request = (HttpServletRequest) req;
     HttpServletResponse response = (HttpServletResponse) res;
     if (checkEndPoint(request.getMethod(), request.getServletPath())) {
-      String token = request.getHeader("Authorization");
-      if (token == null) {
-        response.sendError(401, "Login or password invalid.");
-        return;
-      }
-      String[] credentials;
-      try {
-        credentials = getCredentialsFromToken(token);
-      } catch (Exception e) {
-        response.sendError(401, "Invalid token.");
-        return;
-      }
-      User user = repository.findById(credentials[0]).orElse(null);
+      String sessionId = request.getSession().getId();
+      User user = sessionService.getUser(sessionId);
+      if (user == null) {
+        String token = request.getHeader("Authorization");
+        if (token == null) {
+          response.sendError(401, "Login or password invalid.");
+          return;
+        }
+        String[] credentials;
+        try {
+          credentials = getCredentialsFromToken(token);
+        } catch (Exception e) {
+          response.sendError(401, "Invalid token.");
+          return;
+        }
+        user = repository.findById(credentials[0]).orElse(null);
 
-      if (user == null || !BCrypt.checkpw(credentials[1], user.getPassword())) {
-        response.sendError(401, "Login or password are invalid");
-        return;
+        if (user == null || !BCrypt.checkpw(credentials[1], user.getPassword())) {
+          response.sendError(401, "Login or password are invalid");
+          return;
+        }
+        sessionService.addUser(sessionId, user);
       }
       request = new WrappedRequest(request, user.getLogin());
       UserContext userContext = UserContext.builder()
@@ -59,7 +66,7 @@ public class AuthenticationFilter implements Filter {
           .password(user.getPassword())
           .roles(user.getRoles())
           .build();
-        context.addUser(userContext);
+      context.addUser(userContext);
     }
     next.doFilter(request, response);
   }
